@@ -34,19 +34,6 @@ $(function() {
     $d.fadeOut(1200);
   });
 
-  if (notify.permissionLevel() === notify.PERMISSION_DEFAULT) {
-    var html = '<div id="open-notification" class="tc"><a href="#;">点我开启桌面提醒</a></div>';
-    $('body').prepend(html);
-  }
-
-  $D.on('click', '#open-notification a', function() {
-    notify.requestPermission(function(){
-      if (notify.permissionLevel() === notify.PERMISSION_GRANTED) {
-        $('#open-notification').remove();
-      }
-    });
-  });
-
   $D.on('mouseover', '.add-sth', function(e) {
     clearTimeout(G.addMenuTimer);
     e.preventDefault();
@@ -194,22 +181,6 @@ $(function() {
     $('#global-pic-select').click();
   });
 
-  function Notifier() {
-  }
-  Notifier.prototype.notify = function(title, options) {
-    var n;
-    if (window.webkitNotifications) {
-      n = window.webkitNotifications.createNotification(options.icon, title, options.body);
-      n.onclick = function() {
-        window.focus();
-        this.cancel();
-      };
-      n.show();
-    } else if (navigator.mozNotification) {
-    }
-  };
-  notifier = new Notifier();
-
   var cslMessage = "             ___    ___                            \n"+
     "            /\\_ \\  /\\_ \\    __                     \n"+
     "  ___    ___\\//\\ \\ \\//\\ \\  /\\_\\  _____      __     \n"+
@@ -219,6 +190,7 @@ $(function() {
     " \\/____/\\/___/ \\/____/\\/____/ \\/_/\\ \\ \\/  \\/__/\\/_/\n"+
     "                                   \\ \\_\\           \n"+
     "                                    \\/_/           \n"+
-    "\n联系方式：i@yetone.net";
+    "\n原作者:yetone"+
+    "\n当前版本维护者：ywmmmw";
   window.console && console.info && console.info(cslMessage);
 });

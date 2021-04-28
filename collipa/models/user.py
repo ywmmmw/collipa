@@ -215,7 +215,8 @@ class User(db.Entity, BaseModel):
     @staticmethod
     def create_password(raw):
         salt = User.create_token(8)
-        hsh = hashlib.sha1(salt + raw + config.password_secret).hexdigest()
+        raw = salt + raw + config.password_secret
+        hsh = hashlib.sha1(raw.encode("utf-8")).hexdigest()
         return "%s$%s" % (salt, hsh)
 
     @staticmethod
