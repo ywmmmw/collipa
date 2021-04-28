@@ -47,9 +47,9 @@ def escape(text):
 
 def diff(a, b, n=3, css=True):
     split_tag = '</p>'
-    if isinstance(a, basestring):
+    if isinstance(a, str):
         a = [e + split_tag for e in a.split(split_tag) if e]
-    if isinstance(b, basestring):
+    if isinstance(b, str):
         b = [e + split_tag for e in b.split(split_tag) if e]
     return colorize(list(difflib.unified_diff(a, b, n=n)), css=css)
 
@@ -60,7 +60,7 @@ def colorize(diff, css=True):
 
 
 def _colorize(diff):
-    if isinstance(diff, basestring):
+    if isinstance(diff, str):
         lines = diff.splitlines()
     else:
         lines = diff
@@ -124,4 +124,4 @@ if __name__ == "__main__":
 
     a = open(sys.argv[1]).read().splitlines()
     b = open(sys.argv[2]).read().splitlines()
-    print diff(a, b, css=options.css)
+    print(diff(a, b, css=options.css))

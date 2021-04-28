@@ -2,31 +2,37 @@
 
 import re
 from collipa import config
-import memcache
+# import memcache
 import redis
-import cPickle as pickle
+import pickle as pickle
 from functools import wraps
+from collipa.libs.redis_port import RedisPort
 
-mc = memcache.Client(['127.0.0.1:11211'], debug=1)
-
+# mc = memcache.Client(['127.0.0.1:11211'], debug=1)
 rd = redis.StrictRedis(host='127.0.0.1', port=config.rd_port, db=0)
+
+mc = RedisPort(rd)
 
 
 def memcached(key, limit=86400):
     def wrap(func):
         @wraps(func)
         def get_value(*args, **kwargs):
+            '''
+            TODO: 暂时忽略掉，以后处理
             value = mc.get(key)
             if not value:
                 value = func(*args, **kwargs)
                 mc.set(key, value, limit)
             return value
+            '''
+            return func(*args, **kwargs)
         return get_value
     return wrap
 
 
 def img_convert(text):
-    img_url = ur'http[s]:\/\/[^\s\"]*\.(jpg|jpeg|png|bmp|gif)'
+    img_url = r'http[s]:\/\/[^\s\"]*\.(jpg|jpeg|png|bmp|gif)'
     for match in re.finditer(img_url, text):
         url = match.group(0)
         img_tag = '![](%s)' % url
@@ -41,8 +47,8 @@ def pk(name, value=None):
             pickle.dump(value, f, 2)
             f.close()
             return True
-        except Exception, e:
-            print e
+        except Exception as e:
+            print(e)
             return False
     try:
         f = file('/dev/shm/' + name + '.pkl', 'rb')

@@ -1,9 +1,9 @@
 # coding: utf-8
 
 import os
-import commands
 import subprocess
-from cStringIO import StringIO
+import subprocess
+from io import StringIO
 
 
 class GifInfo:  # gifsicle -I
@@ -105,11 +105,11 @@ class GifSicle:
     @staticmethod
     def convert(infile, outfile=None):
         if outfile is None:
-            res = commands.getstatusoutput("gifsicle --batch " + str(infile))
+            res = subprocess.getstatusoutput("gifsicle --batch " + str(infile))
             if res[0] == 0:
                 return True
             return False
-        res = commands.getstatusoutput("gifsicle " + str(infile) + " > " + outfile)
+        res = subprocess.getstatusoutput("gifsicle " + str(infile) + " > " + outfile)
         if res[0] == 0:
             return True
         return False

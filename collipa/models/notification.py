@@ -18,7 +18,7 @@ class Notification(db.Entity, BaseModel):
         'up'      : 赞同提醒
         'thank'   : 感谢提醒
     """
-    role = orm.Required(unicode, default='reply')
+    role = orm.Required(str, default='reply')
 
     """ 状态
         1:      已读

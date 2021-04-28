@@ -2,14 +2,14 @@
 Tools for sending email.
 """
 
-from importlib import import_module
+from .importlib import import_module
 
 # Imported for backwards compatibility, and for the sake
 # of a cleaner namespace. These symbols used to be in
 # django/core/mail.py before the introduction of email
 # backends and the subsequent reorganization (See #10355)
-from utils import CachedDnsName, DNS_NAME
-from message import \
+from .utils import CachedDnsName, DNS_NAME
+from .message import \
     EmailMessage, EmailMultiAlternatives, \
     SafeMIMEText, SafeMIMEMultipart, \
     DEFAULT_ATTACHMENT_MIME_TYPE, make_msgid, \
@@ -27,7 +27,7 @@ def get_connection(backend=None, fail_silently=False, **kwds):
     try:
         mod_name, klass_name = path.rsplit('.', 1)
         mod = import_module(mod_name)
-    except ImportError, e:
+    except ImportError as e:
         raise Exception(('Error importing email backend module %s: "%s"'
                                     % (mod_name, e)))
     try:

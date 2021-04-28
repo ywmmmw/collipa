@@ -12,23 +12,23 @@ def do_sth():
     delete_count = 0
 
     for user in users:
-        print user.name, user.nickname, user.email
+        print(user.name, user.nickname, user.email)
 
     for ms in messages:
-        print ms.receiver_id
+        print(ms.receiver_id)
         if not ms.message_box1:
             delete_count += 1
             ms.delete()
             continue
         if ms.receiver_id != ms.message_box1.receiver_id:
-            print ms.id
+            print(ms.id)
             count += 1
             try:
                 ms.receiver_id = ms.message_box1.receiver_id
             except:
-                print "error"
-    print("The mistake message count is %s" % count)
-    print("The deleted message count is %s" % delete_count)
+                print("error")
+    print(("The mistake message count is %s" % count))
+    print(("The deleted message count is %s" % delete_count))
     """
     for mb in message_boxes:
         print mb.id

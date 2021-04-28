@@ -28,7 +28,7 @@ class BaseForm(object):
         self._fields = {}
 
         if hasattr(fields, 'iteritems'):
-            fields = fields.iteritems()
+            fields = iter(fields.items())
 
         locale = self._get_locale()
 
@@ -38,7 +38,7 @@ class BaseForm(object):
 
     def __iter__(self):
         """ Iterate form fields in arbitrary order """
-        return self._fields.itervalues()
+        return iter(self._fields.values())
 
     def __contains__(self, item):
         """ Returns `True` if the named field is a member of this form. """
@@ -72,7 +72,7 @@ class BaseForm(object):
         :note: This is a destructive operation; Any attribute with the same name
                as a field will be overridden. Use with caution.
         """
-        for name, field in self._fields.iteritems():
+        for name, field in self._fields.items():
             field.populate_obj(obj, name)
 
     def process(self, formdata=None, obj=None, **kwargs):
@@ -94,7 +94,7 @@ class BaseForm(object):
         if formdata is not None and not hasattr(formdata, 'getlist'):
             formdata = _TornadoArgumentsWrapper(formdata)
 
-        for name, field, in self._fields.iteritems():
+        for name, field, in self._fields.items():
             if obj is not None and hasattr(obj, name):
                 field.process(formdata, getattr(obj, name))
             elif name in kwargs:
@@ -115,7 +115,7 @@ class BaseForm(object):
         """
         self._errors = None
         success = True
-        for name, field in self._fields.iteritems():
+        for name, field in self._fields.items():
             if extra_validators is not None and name in extra_validators:
                 extra = extra_validators[name]
             else:
@@ -126,12 +126,12 @@ class BaseForm(object):
 
     @property
     def data(self):
-        return dict((name, f.data) for name, f in self._fields.iteritems())
+        return dict((name, f.data) for name, f in self._fields.items())
 
     @property
     def errors(self):
         if self._errors is None:
-            self._errors = dict((name, f.errors) for name, f in self._fields.iteritems() if f.errors)
+            self._errors = dict((name, f.errors) for name, f in self._fields.items() if f.errors)
         return self._errors
 
 
@@ -188,7 +188,7 @@ class FormMeta(type):
         type.__delattr__(cls, name)
 
 
-class TornadoForm(BaseForm):
+class TornadoForm(BaseForm, metaclass=FormMeta):
     """
     Declarative Form base class. Extends BaseForm's core behaviour allowing
     fields to be defined on Form subclasses as class attributes.
@@ -203,7 +203,6 @@ class TornadoForm(BaseForm):
             def prepare(self):
                 options.tforms_locale = self.locale
     """
-    __metaclass__ = FormMeta
 
     def __init__(self, arguments=None, obj=None, prefix='fm-', **kwargs):
         """
@@ -223,7 +222,7 @@ class TornadoForm(BaseForm):
         self.obj = obj
         super(TornadoForm, self).__init__(self._unbound_fields, prefix=prefix)
 
-        for name, field in self._fields.iteritems():
+        for name, field in self._fields.items():
             # Set all the fields to attributes so that they obscure the class
             # attributes with the same names.
             setattr(self, name, field)
@@ -292,7 +291,7 @@ class _TornadoArgumentsWrapper(dict):
             values = []
             for v in self[key]:
                 v = to_unicode(v)
-                if isinstance(v, unicode):
+                if isinstance(v, str):
                     v = re.sub(r"[\x00-\x08\x0e-\x1f]", " ", v)
                 values.append(v)
 

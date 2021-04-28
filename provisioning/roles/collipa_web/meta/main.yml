@@ -1,6 +1,0 @@
----
-dependencies:
-    - common
-    - supervisor
-    - nginx
-    - collipa

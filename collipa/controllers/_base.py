@@ -150,7 +150,7 @@ class BaseHandler(tornado.web.RequestHandler):
         result = {'status': 'error', 'message': msg}
         return self.send_result(result, redirect_url)
 
-    def send_success_result(self, msg=u'操作成功', redirect_url=None, **kwargs):
+    def send_success_result(self, msg='操作成功', redirect_url=None, **kwargs):
         result = {
             'status': 'success',
             'message': msg,
@@ -162,7 +162,7 @@ class BaseHandler(tornado.web.RequestHandler):
         result = {'status': 'error', 'message': msg}
         return self.write(result)
 
-    def send_success_json(self, msg=u'操作成功', **kwargs):
+    def send_success_json(self, msg='操作成功', **kwargs):
         result = {
             'status': 'success',
             'message': msg,

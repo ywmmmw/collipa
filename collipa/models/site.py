@@ -5,7 +5,7 @@ from ._base import db, BaseModel
 
 
 class Site(db.Entity, BaseModel):
-    name = orm.Optional(unicode)
+    name = orm.Optional(str)
 
     help = orm.Optional(orm.LongUnicode)
     about = orm.Optional(orm.LongUnicode)
@@ -15,9 +15,9 @@ class Site(db.Entity, BaseModel):
     law = orm.Optional(orm.LongUnicode)
     description = orm.Optional(orm.LongUnicode)
 
-    ico_img = orm.Optional(unicode, 400)
-    head_img = orm.Optional(unicode, 400)
-    background_img = orm.Optional(unicode, 400)
+    ico_img = orm.Optional(str, 400)
+    head_img = orm.Optional(str, 400)
+    background_img = orm.Optional(str, 400)
 
     def __str__(self):
         return self.name

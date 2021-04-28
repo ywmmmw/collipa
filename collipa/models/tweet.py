@@ -13,7 +13,7 @@ class Tweet(db.Entity, BaseModel):
 
     content = orm.Required(orm.LongUnicode)
 
-    role = orm.Required(unicode, 10, default='tweet')
+    role = orm.Required(str, 10, default='tweet')
 
     thank_count = orm.Required(int, default=0)
     up_count = orm.Required(int, default=0)
@@ -25,7 +25,7 @@ class Tweet(db.Entity, BaseModel):
     created_at = orm.Required(int, default=int(time.time()))
     updated_at = orm.Required(int, default=int(time.time()))
     active = orm.Required(int, default=int(time.time()))
-    has_img = orm.Optional(unicode, 10)
+    has_img = orm.Optional(str, 10)
 
     def __str__(self):
         return self.id

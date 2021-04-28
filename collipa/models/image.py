@@ -22,9 +22,9 @@ class Image(db.Entity, BaseModel):
     width = orm.Required(int)
     height = orm.Required(int)
 
-    path = orm.Required(unicode, 400)
+    path = orm.Required(str, 400)
 
-    role = orm.Required(unicode, 10, default='image')
+    role = orm.Required(str, 10, default='image')
     compute_count = orm.Required(int, default=config.reply_compute_count)
 
     thank_count = orm.Required(int, default=0)

@@ -32,12 +32,12 @@ class HomeHandler(BaseHandler, EmailMixin):
             raise tornado.web.HTTPError(404)
         album_id = self.get_int('album_id', None)
         if not album_id:
-            return self.send_error_result(msg=u'没有指定专辑哦')
+            return self.send_error_result(msg='没有指定专辑哦')
         album = Album.get(id=album_id)
         if not album:
-            return self.send_error_result(msg=u'专辑不存在')
+            return self.send_error_result(msg='专辑不存在')
         if album.user_id != self.current_user.id:
-            return self.send_error_result(msg=u'此专辑不是您的专辑')
+            return self.send_error_result(msg='此专辑不是您的专辑')
         if image.album_id != album_id:
             image.album_id = album_id
         return self.send_success_result()
@@ -50,7 +50,7 @@ class HomeHandler(BaseHandler, EmailMixin):
         if not image:
             return self.redirect_next_url()
         if image.topic_id:
-            return self.send_error_result(msg=u'此图片被主题《%s》引用，无法删除' % image.topic.title)
+            return self.send_error_result(msg='此图片被主题《%s》引用，无法删除' % image.topic.title)
         if self.current_user.is_admin and image.user_id != self.current_user.id:
             subject = "图片删除通知 - " + config.site_name
             template = (
@@ -114,7 +114,7 @@ class UploadHandler(BaseHandler):
         tmp_file.seek(0)
         try:
             img = Img.open(tmp_file.name)
-        except IOError, error:
+        except IOError as error:
             logging.info(error)
             logging.info('+' * 30 + '\n')
             logging.info(self.request.headers)
@@ -151,4 +151,4 @@ class UploadHandler(BaseHandler):
                       width=width,
                       height=height).save()
         image.crop()
-        return self.send_success_result(msg=u'上传成功', **image.to_dict())
+        return self.send_success_result(msg='上传成功', **image.to_dict())

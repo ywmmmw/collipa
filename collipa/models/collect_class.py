@@ -7,14 +7,14 @@ from ._base import db, BaseModel
 
 class CollectClass(db.Entity, BaseModel):
     user_id = orm.Required(int)
-    name = orm.Required(unicode)
+    name = orm.Required(str)
 
     collect_count = orm.Required(int, default=0)
 
     created_at = orm.Required(int, default=int(time.time()))
     active = orm.Required(int, default=int(time.time()))
 
-    description = orm.Optional(unicode)
+    description = orm.Optional(str)
 
     def __str__(self):
         return self.id

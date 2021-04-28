@@ -10,7 +10,7 @@ The source of <http://collipa.com>
 ## 配置
 
 ```
-mv config.back.py config.py
+cp collipa/config.py collipa/local_config.py
 ```
 修改 collipa/config.py 文件：
 
@@ -39,12 +39,6 @@ mv config.back.py config.py
 
 ```
 sudo apt-get install mysql-server
-```
-
-### 安装 memcached
-
-```
-sudo apt-get install memcached
 ```
 
 ### 安装 redis

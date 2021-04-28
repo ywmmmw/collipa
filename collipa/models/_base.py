@@ -7,7 +7,9 @@ from pony import orm
 
 __all__ = ['db', 'BaseModel']
 
-db = orm.Database('mysql', config.db_host, config.db_user, config.db_pass, config.db_name)
+# db = orm.Database('mysql', config.db_host, config.db_user, config.db_pass, config.db_name)
+db = orm.Database()
+db.bind(provider='mysql', host=config.db_host, user=config.db_user, passwd=config.db_pass, db=config.db_name)
 
 
 # Cannot inherited from db.Entity, because the fucking design of Pony!!!
@@ -118,4 +120,4 @@ class BaseModel(object):
                 )
             content = content[:pos + dp] + replacement + content[pos + dp + len(username) + 1:]
             dp += len(replacement) - len(username) - 1
-        return content, user_map.values()
+        return content, list(user_map.values())

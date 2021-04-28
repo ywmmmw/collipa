@@ -22,7 +22,7 @@ class TopicForm(BaseForm):
 
     @property
     def result(self):
-        msg = u'主题创建失败'
+        msg = '主题创建失败'
         for field in self:
             if field.errors:
                 if field.name == 'title':
@@ -64,7 +64,7 @@ class TopicForm(BaseForm):
         super(TopicForm, self).__init__(*args, **kwargs)
 
     def validate_node_name(self, field):
-        node_name = unicode(self.node_name.data)
+        node_name = str(self.node_name.data)
         node = Node.get(name=node_name)
         if not node:
             raise ValidationError('不存在此节点')
@@ -83,7 +83,7 @@ class TopicForm(BaseForm):
         if not self.node:
             logging.info('node is None in form instance, self: %s', self)
 
-        content = unicode(data.get('content'))
+        content = str(data.get('content'))
         data.update({'user_id': user.id, 'node_id': self.node.id,
                      'content': strip_xss_tags(content)})
         if topic:

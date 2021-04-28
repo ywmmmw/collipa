@@ -13,12 +13,12 @@ from collipa.extensions import mc
 class Node(db.Entity, BaseModel):
     user_id = orm.Required(int, default=1)
 
-    name = orm.Required(unicode, 80, unique=True)
-    urlname = orm.Required(unicode, 80, unique=True)
+    name = orm.Required(str, 80, unique=True)
+    urlname = orm.Required(str, 80, unique=True)
 
     topic_count = orm.Required(int, default=0)
     follow_count = orm.Required(int, default=0)
-    role = orm.Required(unicode, 10, default='node')
+    role = orm.Required(str, 10, default='node')
 
     created_at = orm.Required(int, default=int(time.time()))
     updated_at = orm.Required(int, default=int(time.time()))
@@ -26,11 +26,11 @@ class Node(db.Entity, BaseModel):
 
     description = orm.Optional(orm.LongUnicode)
     summary = orm.Optional(orm.LongUnicode)
-    style = orm.Optional(unicode, 6000)
+    style = orm.Optional(str, 6000)
 
-    icon_img = orm.Optional(unicode, 400)
-    head_img = orm.Optional(unicode, 400)
-    background_img = orm.Optional(unicode, 400)
+    icon_img = orm.Optional(str, 400)
+    head_img = orm.Optional(str, 400)
+    background_img = orm.Optional(str, 400)
 
     @property
     def url(self):
@@ -194,7 +194,7 @@ class Node(db.Entity, BaseModel):
             return nodes
 
     def update(self, data):
-        for k, v in data.iteritems():
+        for k, v in data.items():
             if not v and (k == 'description' or k == 'style'):
                 v = ''
             if k == 'style' and v:

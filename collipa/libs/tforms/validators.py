@@ -153,9 +153,9 @@ class Required(object):
 
     def __call__(self, form, field):
         if (not isinstance(field.data, int) and not field.data) or \
-           isinstance(field.data, basestring) and not field.data.strip():
+           isinstance(field.data, str) and not field.data.strip():
             if self.message is None:
-                self.message = field.translate(u'This field is required.')
+                self.message = field.translate('This field is required.')
 
             field.errors[:] = []
             raise StopValidation(self.message)
@@ -175,7 +175,7 @@ class Regexp(object):
         Error message to raise in case of a validation error.
     """
     def __init__(self, regex, flags=0, message=None):
-        if isinstance(regex, basestring):
+        if isinstance(regex, str):
             regex = re.compile(regex, flags)
         self.regex = regex
         self.message = message

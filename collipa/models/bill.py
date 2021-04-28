@@ -26,7 +26,7 @@ class Bill(db.Entity, BaseModel):
         'collect':          主题/评论被收藏     收入/支出
         'active-gift':      活跃赠送            收入
     """
-    role = orm.Required(unicode, default='signup')
+    role = orm.Required(str, default='signup')
 
     """ 支收类型
         1   收入

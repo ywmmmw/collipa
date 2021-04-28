@@ -1,7 +1,7 @@
 # coding: utf-8
 
 import re
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 
 regex_cache = {}
 
@@ -60,4 +60,4 @@ def parse_html(html):
                 if not search(attr_value, attr_rules[attr_name]):
                     del tag[attr_name]
 
-    return unicode(soup.renderContents(), 'utf8')
+    return str(soup.renderContents(), 'utf8')

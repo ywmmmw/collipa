@@ -1,5 +1,0 @@
----
-app_user: collipa
-app_version: master
-cache_server: localhost
-cache_port: 11211

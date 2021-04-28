@@ -1,3 +1,0 @@
----
-- name: reload supervisor
-  shell: supervisorctl reload

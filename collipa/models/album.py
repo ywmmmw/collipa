@@ -10,12 +10,12 @@ from collipa import helpers
 
 
 class Album(db.Entity, BaseModel):
-    name = orm.Required(unicode, 400)
-    description = orm.Optional(unicode, 1000)
+    name = orm.Required(str, 400)
+    description = orm.Optional(str, 1000)
     user_id = orm.Required(int)
     image_count = orm.Required(int, default=0)
 
-    role = orm.Required(unicode, 10, default='album')
+    role = orm.Required(str, 10, default='album')
     compute_count = orm.Required(int, default=config.reply_compute_count)
 
     thank_count = orm.Required(int, default=0)
@@ -84,7 +84,7 @@ class Album(db.Entity, BaseModel):
 
         cover = _cover_id()
         # 某一夜，脑残用了 image.id 作为 album 的 cover
-        if type(cover) in (int, long):
+        if type(cover) in (int, int):
             image = collipa.models.Image.get(id=cover)
             if image:
                 cover = image.path

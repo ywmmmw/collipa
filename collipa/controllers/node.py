@@ -200,7 +200,7 @@ class ImgUploadHandler(BaseHandler):
         tmp_file.seek(0)
         try:
             image_one = Image.open(tmp_file.name)
-        except IOError, error:
+        except IOError as error:
             logging.info(error)
             logging.info('+' * 30 + '\n')
             logging.info(self.request.headers)

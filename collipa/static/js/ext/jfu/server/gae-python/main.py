@@ -10,11 +10,11 @@
 # http://www.opensource.org/licenses/MIT
 #
 
-from __future__ import with_statement
+
 from google.appengine.api import files, images
 from google.appengine.ext import blobstore, deferred
 from google.appengine.ext.webapp import blobstore_handlers
-import json, re, urllib, webapp2
+import json, re, urllib.request, urllib.parse, urllib.error, webapp2
 
 WEBSITE = 'http://blueimp.github.com/jQuery-File-Upload/'
 MIN_FILE_SIZE = 1 # bytes
@@ -66,8 +66,8 @@ class UploadHandler(webapp2.RequestHandler):
     def handle_upload(self):
         results = []
         blob_keys = []
-        for name, fieldStorage in self.request.POST.items():
-            if type(fieldStorage) is unicode:
+        for name, fieldStorage in list(self.request.POST.items()):
+            if type(fieldStorage) is str:
                 continue
             result = {}
             result['name'] = re.sub(r'^.*\\', '',
@@ -81,7 +81,7 @@ class UploadHandler(webapp2.RequestHandler):
                 blob_keys.append(blob_key)
                 result['delete_type'] = 'DELETE'
                 result['delete_url'] = self.request.host_url +\
-                    '/?key=' + urllib.quote(blob_key, '')
+                    '/?key=' + urllib.parse.quote(blob_key, '')
                 if (IMAGE_TYPES.match(result['type'])):
                     try:
                         result['url'] = images.get_serving_url(
@@ -95,7 +95,7 @@ class UploadHandler(webapp2.RequestHandler):
                         pass
                 if not 'url' in result:
                     result['url'] = self.request.host_url +\
-                        '/' + blob_key + '/' + urllib.quote(
+                        '/' + blob_key + '/' + urllib.parse.quote(
                             result['name'].encode('utf-8'), '')
             results.append(result)
         deferred.defer(
@@ -122,7 +122,7 @@ class UploadHandler(webapp2.RequestHandler):
         redirect = self.request.get('redirect')
         if redirect:
             return self.redirect(str(
-                redirect.replace('%s', urllib.quote(s, ''), 1)
+                redirect.replace('%s', urllib.parse.quote(s, ''), 1)
             ))
         if 'application/json' in self.request.headers.get('Accept'):
             self.response.headers['Content-Type'] = 'application/json'

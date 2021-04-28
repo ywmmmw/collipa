@@ -98,7 +98,7 @@ class WebSocketHandler(BaseHandler, tornado.websocket.WebSocketHandler):
         for ws in wss:
             try:
                 ws.send('message', **data)
-            except Exception, e:
+            except Exception as e:
                 logging.error(e)
                 logging.error("Error sending message", exc_info=True)
 
@@ -118,7 +118,7 @@ class WebSocketHandler(BaseHandler, tornado.websocket.WebSocketHandler):
         for ws in wss:
             try:
                 ws.send('notification', **data)
-            except Exception, e:
+            except Exception as e:
                 logging.error(e)
                 logging.error("Error sending notification", exc_info=True)
 

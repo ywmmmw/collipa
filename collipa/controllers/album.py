@@ -75,10 +75,10 @@ class CreateHandler(BaseHandler):
         name = self.get_argument('name', None)
         name = strip_tags(name)
         if not name:
-            return self.send_error_result(msg=u'没有填写专辑名')
+            return self.send_error_result(msg='没有填写专辑名')
 
         if len(name) >= 10:
-            return self.send_error_result(msg=u'专辑名不能超过 10 个字符')
+            return self.send_error_result(msg='专辑名不能超过 10 个字符')
 
         album = Album(name=name, user_id=user.id).save()
         return self.send_success_result(**album.to_dict())
@@ -92,7 +92,7 @@ class ListHandler(BaseHandler):
         if user_id:
             user = User.get(id=user_id)
         if not user:
-            return self.send_error_result(msg=u'没有指定用户 id')
+            return self.send_error_result(msg='没有指定用户 id')
         albums = user.get_albums(page=None)
         object_list = [album.to_simple_dict() for album in albums]
         data = {

@@ -107,7 +107,7 @@ class HomeHandler(BaseHandler, EmailMixin):
                 content = content_dict.get(reply.author.name)
                 content += '<li>' + reply.content + '</li>'
             content_dict.update({reply.author.name: content})
-        for name, content in content_dict.iteritems():
+        for name, content in content_dict.items():
             user = User.get(name=name)
             subject = "评论删除通知 - " + config.site_name
             template = (

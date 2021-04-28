@@ -8,7 +8,7 @@ import random
 import logging
 import math
 from datetime import datetime
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 
 from collipa import config
 from collipa.libs import xss
@@ -102,7 +102,7 @@ def get_month():
 
 
 def format_text(text):
-    floor = ur'#(\d+)楼\s'
+    floor = r'#(\d+)楼\s'
     for match in re.finditer(floor, text):
         url = match.group(1)
         floor = match.group(0)
@@ -116,7 +116,7 @@ def reply_content(text):
 
 
 def regex(pattern, data, flags=0):
-    if isinstance(pattern, basestring):
+    if isinstance(pattern, str):
         pattern = re.compile(pattern, flags)
 
     return pattern.match(data)
@@ -172,7 +172,7 @@ def filter_img_tags(htmlstr):
 
 
 def get_img_list(text):
-    img_path = ur'\/static\/[^\s\"]*\.(jpg|jpeg|png|bmp|gif)'
+    img_path = r'\/static\/[^\s\"]*\.(jpg|jpeg|png|bmp|gif)'
     path_list = []
     for match in re.finditer(img_path, text):
         path = match.group(0)

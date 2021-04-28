@@ -264,7 +264,7 @@ class SMTP:
         if hasattr(self, '__get_socket'):
             callback(self.__get_socket)
             return
-        if self.debuglevel > 0: print>>stderr, 'connect:', (host, port)
+        if self.debuglevel > 0: print('connect:', (host, port), file=stderr)
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
         stream = iostream.IOStream(s)
         callback = partial(callback, socket=stream)
@@ -303,22 +303,22 @@ class SMTP:
                 host, port = host[:i], host[i+1:]
                 try: port = int(port)
                 except ValueError:
-                    raise socket.error, "nonnumeric port"
+                    raise socket.error("nonnumeric port")
         if not port: port = self.default_port
         result = yield gen.Task(
             self._get_socket, port, host, self.timeout
         )
         self.sock = result.kwargs['socket']
-        if self.debuglevel > 0: print>>stderr, 'connect:', (host, port)
+        if self.debuglevel > 0: print('connect:', (host, port), file=stderr)
         result = yield gen.Task(self.getreply)
         (code, msg) = result.args
-        if self.debuglevel > 0: print>>stderr, "connect:", msg
+        if self.debuglevel > 0: print("connect:", msg, file=stderr)
         if callback:
             callback(code, msg)
 
     def send(self, str, callback):
         """Send `str' to the server."""
-        if self.debuglevel > 0: print>>stderr, 'send:', repr(str)
+        if self.debuglevel > 0: print('send:', repr(str), file=stderr)
         if hasattr(self, 'sock') and self.sock:
             try:
                 self.sock.write(str, callback)
@@ -359,7 +359,7 @@ class SMTP:
             if line == '':
                 self.close()
                 raise SMTPServerDisconnected("Connection unexpectedly closed")
-            if self.debuglevel > 0: print>>stderr, 'reply:', repr(line)
+            if self.debuglevel > 0: print('reply:', repr(line), file=stderr)
             resp.append(line[4:].strip())
             code=line[:3]
             # Check that the error code is syntactically correct.
@@ -375,7 +375,7 @@ class SMTP:
 
         errmsg = "\n".join(resp)
         if self.debuglevel > 0:
-            print>>stderr, 'reply: retcode (%s); Msg: %s' % (errcode,errmsg)
+            print('reply: retcode (%s); Msg: %s' % (errcode,errmsg), file=stderr)
         callback(errcode, errmsg)
 
     @gen.engine
@@ -509,7 +509,7 @@ class SMTP:
         yield gen.Task(self.putcmd, "data")
         result = yield gen.Task(self.getreply)
         (code, repl) = result.args
-        if self.debuglevel >0 : print>>stderr, "data:", (code,repl)
+        if self.debuglevel >0 : print("data:", (code,repl), file=stderr)
         if code != 354:
             raise SMTPDataError(code,repl)
         else:
@@ -520,7 +520,7 @@ class SMTP:
             yield gen.Task(self.send, q)
             result = yield gen.Task(self.getreply)
             (code, msg) = result.args
-            if self.debuglevel >0 : print>>stderr, "data:", (code,msg)
+            if self.debuglevel >0 : print("data:", (code,msg), file=stderr)
             if callback:
                 callback(code, msg)
 
@@ -761,7 +761,7 @@ class SMTP:
             yield gen.Task(self.rset)
             raise SMTPSenderRefused(code, resp, from_addr)
         senderrs={}
-        if isinstance(to_addrs, basestring):
+        if isinstance(to_addrs, str):
             to_addrs = [to_addrs]
         for each in to_addrs:
             result = yield gen.Task(self.rcpt, each, rcpt_options)

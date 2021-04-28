@@ -18,17 +18,17 @@ class AlbumForm(BaseForm):
 
     @property
     def result(self):
-        msg = u'专辑创建失败'
+        msg = '专辑创建失败'
         for field in self:
             if field.errors:
                 if field.name == 'content':
-                    msg = u'名字至少 3 字节'
+                    msg = '名字至少 3 字节'
         result = {'status': 'error', 'message': msg}
         return result
 
     def save(self, user):
         data = self.data
-        name = unicode(data.get('name'))
+        name = str(data.get('name'))
         data.update({'user_id': user.id, 'name': strip_xss_tags(name)})
         album = Album(**data)
         return album.save()

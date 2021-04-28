@@ -142,7 +142,7 @@ class NodeEditForm(BaseForm):
                 NodeNode(parent_id=1, child_id=node.id).save()
         else:
             for name in parent_name:
-                parent = Node.get(name=unicode(name))
+                parent = Node.get(name=str(name))
                 if parent:
                     if not NodeNode.get(parent_id=parent.id, child_id=node.id):
                         NodeNode(parent_id=parent.id, child_id=node.id).save()

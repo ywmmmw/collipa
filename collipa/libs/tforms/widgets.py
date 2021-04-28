@@ -15,7 +15,7 @@ def html_params(**kwargs):
     'class="text" id="f" name="text1"'
     """
     params = []
-    for k, v in sorted(kwargs.iteritems()):
+    for k, v in sorted(kwargs.items()):
         if k in ('class_', 'for_'):
             k = k[:-1]
         if k.startswith('data_'):

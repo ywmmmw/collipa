@@ -14,14 +14,14 @@ from collipa.supports import Struct
 
 
 class User(db.Entity, BaseModel):
-    name = orm.Required(unicode, 40, unique=True)
-    email = orm.Required(unicode, unique=True)
-    password = orm.Required(unicode, 100)
+    name = orm.Required(str, 40, unique=True)
+    email = orm.Required(str, unique=True)
+    password = orm.Required(str, 100)
 
-    urlname = orm.Required(unicode, 80, unique=True)
-    nickname = orm.Required(unicode, 80)
+    urlname = orm.Required(str, 80, unique=True)
+    nickname = orm.Required(str, 80)
 
-    role = orm.Required(unicode, 10, default='unverify')
+    role = orm.Required(str, 10, default='unverify')
     reputation = orm.Required(int, default=0)
     active = orm.Required(int, default=int(time.time()))
     edit_nickname_count = orm.Required(int, default=config.user_edit_nickname_count)
@@ -54,18 +54,18 @@ class User(db.Entity, BaseModel):
     balance = orm.Required(int, default=config.user_init_coin)
 
     created_at = orm.Required(int, default=int(time.time()))
-    token = orm.Required(unicode, 20)
+    token = orm.Required(str, 20)
 
-    description = orm.Optional(unicode, 400)
-    address = orm.Optional(unicode, 400)
-    website = orm.Optional(unicode, 400)
-    style = orm.Optional(unicode, 6000)
-    site_style = orm.Optional(unicode, 6000)
+    description = orm.Optional(str, 400)
+    address = orm.Optional(str, 400)
+    website = orm.Optional(str, 400)
+    style = orm.Optional(str, 6000)
+    site_style = orm.Optional(str, 6000)
 
-    avatar = orm.Optional(unicode, 400)
-    avatar_tmp = orm.Optional(unicode, 400)
-    head_img = orm.Optional(unicode, 400)
-    background_img = orm.Optional(unicode, 400)
+    avatar = orm.Optional(str, 400)
+    avatar_tmp = orm.Optional(str, 400)
+    head_img = orm.Optional(str, 400)
+    background_img = orm.Optional(str, 400)
 
     KEY_ONLINE = 'online:{.id}'
     KEY_G_ONLINE = 'online'
@@ -552,7 +552,7 @@ class User(db.Entity, BaseModel):
         album = collipa.models.Album.select(lambda rv: rv.user_id == self.id and rv.role == 'default').first()
         if not album:
             album = collipa.models.Album(user_id=self.id,
-                                         name=u'默认专辑',
+                                         name='默认专辑',
                                          role='default').save()
         return album
 
@@ -710,9 +710,9 @@ class User(db.Entity, BaseModel):
             n.status = 1
         try:
             orm.commit()
-        except Exception, e:
-            print type(e).__name__
-            print e
+        except Exception as e:
+            print(type(e).__name__)
+            print(e)
             raise
 
     @property
@@ -750,7 +750,7 @@ class User(db.Entity, BaseModel):
             self.edit_nickname_count -= 1
         if data.get('urlname') != self.urlname:
             self.edit_urlname_count -= 1
-        for k, v in data.iteritems():
+        for k, v in data.items():
             if not v and k in ['address', 'website', 'description', 'style',
                                'site_style']:
                 v = ''

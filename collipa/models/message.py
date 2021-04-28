@@ -18,7 +18,7 @@ class Message(db.Entity, BaseModel):
     """ 信息类型
         'message':        私信
     """
-    role = orm.Required(unicode, default='message')
+    role = orm.Required(str, default='message')
 
     """ 状态
         1:      已读

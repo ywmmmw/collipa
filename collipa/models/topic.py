@@ -11,11 +11,11 @@ class Topic(db.Entity, BaseModel):
     user_id = orm.Required(int)
     node_id = orm.Required(int)
 
-    title = orm.Required(unicode)
+    title = orm.Required(str)
     content = orm.Required(orm.LongUnicode)
 
     hits = orm.Required(int, default=0)
-    role = orm.Required(unicode, 10, default='topic')
+    role = orm.Required(str, 10, default='topic')
     compute_count = orm.Required(int, default=config.topic_compute_count)
 
     reply_count = orm.Required(int, default=0)

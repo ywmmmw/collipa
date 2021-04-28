@@ -2,7 +2,7 @@
 
 __author__ = 'yetone'
 
-from StringIO import StringIO
+from io import StringIO
 from PIL import Image as Img
 from collipa.libs.pysicle import GifInfo, GifSicle
 import logging
@@ -28,7 +28,7 @@ class Image(object):
 
     def get_raw(self):
         raw = self.fp
-        if type(self.fp) in (str, unicode):
+        if type(self.fp) in (str, str):
             f = open(self.fp, 'rb')
             raw = f.read()
             f.close()

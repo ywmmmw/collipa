@@ -15,7 +15,7 @@ class Reply(db.Entity, BaseModel):
 
     content = orm.Required(orm.LongUnicode)
 
-    role = orm.Required(unicode, 10, default='reply')
+    role = orm.Required(str, 10, default='reply')
     compute_count = orm.Required(int, default=config.reply_compute_count)
 
     thank_count = orm.Required(int, default=0)

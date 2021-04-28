@@ -29,17 +29,17 @@ class ReplyForm(BaseForm):
 
     @property
     def result(self):
-        msg = u'评论创建失败'
+        msg = '评论创建失败'
         for field in self:
             if field.errors:
                 if field.name == 'content':
-                    msg = u'内容至少 3 字节'
+                    msg = '内容至少 3 字节'
         result = {'status': 'error', 'message': msg}
         return result
 
     def save(self, user, topic, reply=None):
         data = self.data
-        content = unicode(data.get('content'))
+        content = str(data.get('content'))
         data.update({'user_id': user.id, 'topic_id': topic.id,
                      'content': strip_xss_tags(content)})
         if reply:
