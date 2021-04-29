@@ -87,6 +87,9 @@
           <div class="menu-bar home">
             <a title="个人主页" class="menu-icon icon-user" href="{{ current_user.url }}"></a>
           </div>
+          <div class="menu-bar signout">
+            <a title="退出" class="menu-icon icon-signout" href="/signout"></a>
+          </div>
           {% else %}
           <div class="menu-bar signin">
             <a title="登录" class="menu-icon icon-signin" href="/signin"></a>

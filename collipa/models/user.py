@@ -231,7 +231,8 @@ class User(db.Entity, BaseModel):
         if not self.password or '$' not in self.password:
             return False
         salt, hsh = self.password.split('$')
-        verify = hashlib.sha1(salt + raw + config.password_secret).hexdigest()
+        raw = salt + raw + config.password_secret
+        verify = hashlib.sha1(raw.encode("utf-8")).hexdigest()
         return verify == hsh
 
     def save(self, category='new'):

@@ -44,7 +44,7 @@ class EmailMixin(object):
             result = {"status": "error", "message": "验证链接错误"}
             self.flash_message(**result)
             return None
-        splits = token.split('|')
+        splits = token.split(b'|')
         if len(splits) != 4:
             result = {"status": "error", "message": "验证链接错误"}
             self.flash_message(**result)

@@ -49,7 +49,7 @@ $(function() {
       loadNextPage = function() {
         var $ul = $('.tweet-list .item-list'),
             $lis = $ul.find('li.item'),
-            id = $lis.last().data('id'),
+            id = $lis.last().data('id') || 0,
             url = window.location.pathname + '?from_id=' + id,
             $ploading = $('<span class="ploading style-2"></span>');
         if (loadedId.indexOf(id) !== -1) {
