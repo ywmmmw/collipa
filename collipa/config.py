@@ -15,13 +15,14 @@ smtp_host = 'smtp.gmail.com'  # email host
 smtp_port = '587'  # email port
 smtp_ssl = True
 
+rd_host = "127.0.0.1"  # Redis host
 rd_port = 6379  # Redis port
 
 cookie_secret = 'cookiesecret'  # cookie secret
 password_secret = 'passwordsecret'  # password secret
 
 site_name = 'Collipa'
-site_url = 'http://127.0.0.1:8008'
+site_url = 'http://collipa.test'
 site_description = 'Good'
 
 paged = 18

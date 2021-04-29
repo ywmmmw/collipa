@@ -10,7 +10,6 @@ import tempfile
 from pony import orm
 from concurrent import futures
 
-from .web_api import WebSocketHandler
 from ._base import BaseHandler
 
 from collipa.models import User
@@ -279,7 +278,6 @@ class MessageCreateHandler(BaseHandler):
                 result = {"status": "error", "message": "请填写至少 4 字的内容"}
             self.send_result(result)
             self.finish()
-            return WebSocketHandler.send_message(message.receiver_id, message)
         result = {"status": "error", "message": "没有目标用户，不能发送私信哦"}
         self.send_result(result)
 

@@ -66,7 +66,7 @@ routers = [
     (r"/findpassword[/]*", user.FindPasswordHandler),
 
     (r"/api/getusername[/]*", web_api.GetUserNameHandler),
-    (r"/api/websocket[/]*", web_api.WebSocketHandler),
+    # (r"/api/websocket[/]*", web_api.WebSocketHandler),
     (r"/api/messagewebsocket[/]*", user.MessageCreateHandler),
     (r"/api/mention[/]*", web_api.MentionHandler),
 

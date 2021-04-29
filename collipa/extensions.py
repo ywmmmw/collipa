@@ -9,7 +9,7 @@ from functools import wraps
 from collipa.libs.redis_port import RedisPort
 
 # mc = memcache.Client(['127.0.0.1:11211'], debug=1)
-rd = redis.StrictRedis(host='127.0.0.1', port=config.rd_port, db=0)
+rd = redis.StrictRedis(host=config.rd_host, port=config.rd_port, db=0)
 
 mc = RedisPort(rd)
 

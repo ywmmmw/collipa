@@ -67,7 +67,4 @@ class Notification(db.Entity, BaseModel):
 
         notification = super(Notification, self).save()
 
-        ctl.WebSocketHandler.send_notification(notification.receiver_id)
-        logging.info('I am send websocket to %d', notification.receiver_id)
-
         return notification

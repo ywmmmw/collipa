@@ -199,7 +199,7 @@ class User(db.Entity, BaseModel):
         return
 
     def gravatar_url(self, size=48):
-        return 'http://gravatar.com/avatar/%s?d=identicon&s=%d&d=%s%s' % (hashlib.md5(self.email.strip().lower().encode('utf-8')).hexdigest(),
+        return 'https://seccdn.libravatar.org/avatar/%s?s=%d&d=%s%s' % (hashlib.md5(self.email.strip().lower().encode('utf-8')).hexdigest(),
                                                                           size, config.site_url, config.user_avatar_url)
 
     def get_avatar(self, size=48):
