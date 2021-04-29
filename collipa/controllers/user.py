@@ -32,9 +32,10 @@ class EmailMixin(object):
     def _create_token(self, user):
         salt = user.create_token(8)
         created = str(int(time.time()))
-        hsh = hashlib.sha1(salt + created + user.token).hexdigest()
+        raw = salt + created + user.token
+        hsh = hashlib.sha1(raw.encode("utf-8")).hexdigest()
         token = "%s|%s|%s|%s" % (user.email, salt, created, hsh)
-        return base64.b64encode(token)
+        return base64.b64encode(token.encode("utf-8"))
 
     @orm.db_session
     def _verify_token(self, token):
@@ -70,10 +71,29 @@ class EmailMixin(object):
         return None
 
     def send_email(self, this, email, subject, content):
-        from collipa.libs.tornadomail.message import EmailMessage
-        message = EmailMessage(subject, content, config.smtp_user,
-                               [email], connection=self.mail_connection)
-        message.send()
+        # 忽略掉发邮件的部分
+        pass
+        # from collipa.libs.tornadomail.message import EmailMessage
+        # message = EmailMessage(subject, content, config.smtp_user,
+        #                        [email], connection=self.mail_connection)
+        # message.send()
+        import emails
+        message = emails.html(
+            html=content, subject=subject, 
+            mail_from=("Collipa", config.smtp_user)
+        )
+
+        response = message.send(
+            to=email, 
+            smtp={
+                "host": config.smtp_host, 
+                "port": config.smtp_port,
+                "ssl": config.smtp_ssl,
+                "user": config.smtp_user,
+                "password": config.smtp_pass,
+            }
+        )
+
 
 
 class HomeHandler(BaseHandler):
@@ -131,6 +151,9 @@ class SignupHandler(BaseHandler, EmailMixin):
                     pass
                 result = {'status': 'success', 'message': '您的账户已经激活'}
                 self.flash_message(**result)
+            elif self.current_user:
+                # 未验证通过token, 重发token
+                self.send_register_email(self.current_user)
             return self.redirect('/account/setting')
         if self.current_user:
             return self.redirect_next_url()

@@ -2,8 +2,6 @@
 
 import sys
 import importlib
-importlib.reload(sys)
-sys.setdefaultencoding('utf-8')
 
 from pony import orm
 from IPython import embed

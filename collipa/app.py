@@ -8,8 +8,6 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.web
 
-# from collipa.libs.tornadomail.backends.smtp import EmailBackend
-
 from collipa import config
 from collipa.controllers import uimodules
 from collipa.models import db

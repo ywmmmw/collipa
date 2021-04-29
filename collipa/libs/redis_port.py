@@ -12,5 +12,5 @@ class RedisPort:
     def set(self, key, value, ttl=-1):
         pass
 
-    def get(self, key, value):
+    def get(self, key):
         pass
